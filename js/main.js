@@ -5,7 +5,7 @@ class App {
   #data;
   #parentEl = document.querySelector(".main__table").querySelector("tbody");
   form = document.querySelector(".form");
-  #errMessasge = "No country found!!! Try again";
+  #errMessasge = "No country found!!! Try again.";
   constructor() {
     this.getCountry();
   }
@@ -15,7 +15,6 @@ class App {
       e.preventDefault();
       const input = this.form.querySelector("input");
       const country = input.value;
-      input.value = "";
       if (!country) {
         this.#renderError();
         return;
