@@ -1,7 +1,7 @@
 {
   "name": "task-3",
   "version": "1.0.0",
-  "main": "index.main",
+  "main": "js/main.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
