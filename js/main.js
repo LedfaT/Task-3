@@ -1,6 +1,9 @@
 import { getJSON } from "./helpers";
 import { API_URL } from "./config";
 
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 class App {
   #data;
   #parentEl = document.querySelector(".main__table").querySelector("tbody");
