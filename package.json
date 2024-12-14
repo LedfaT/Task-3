@@ -1,11 +1,15 @@
 {
   "name": "task-3",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.main",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.13.2"
+  }
 }
