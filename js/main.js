@@ -10,11 +10,24 @@ class App {
   #form = document.querySelector(".form");
   #recoveryBtn = this.#form.querySelector(".recover-btn");
   #input = this.#form.querySelector("input");
+  #saved = [];
   #errMessasge = "No country found!!! Try again.";
 
   constructor() {
+    this.#save();
     this.#recoverData();
     this.#getCountry();
+  }
+
+  #save() {
+    this.#parentEl.addEventListener("click", (e) => {
+      if (!e.target.matches("input") || !this.#data) return;
+
+      const index = +e.target.closest("tr").querySelector("th").textContent - 1;
+      this.#data[index].checked = true;
+      if (e.target.checked === true) this.#saved.push(this.#data[index]);
+      console.log(this.#saved);
+    });
   }
 
   #recoverData() {
@@ -41,10 +54,15 @@ class App {
     try {
       const universities = await getJSON(`${API_URL}=${cont}`);
       this.#data = universities;
+      this.#data.forEach((el) => {
+        el.checked = false;
+      });
+
       if (this.#data.length === 0) {
         this.#renderError();
         return;
       }
+
       const HTML = universities
         .map(
           (uni, i) => `
@@ -59,6 +77,7 @@ class App {
                              </td>
                                 <td>${uni.alpha_two_code}</td>
                                 <td>${uni.domains[0]}</td>
+                                 <td><input type="checkbox" /></td>
                             </tr>
                         `
         )
