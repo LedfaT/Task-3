@@ -16,7 +16,10 @@ class App {
       const input = this.form.querySelector("input");
       const country = input.value;
       input.value = "";
-      if (!country) return;
+      if (!country) {
+        this.#renderError();
+        return;
+      }
       this.render(country);
     });
   }
@@ -25,6 +28,10 @@ class App {
     try {
       const universities = await getJSON(`${API_URL}=${cont}`);
       this.#data = universities;
+      if (this.#data.length === 0) {
+        this.#renderError();
+        return;
+      }
       const HTML = universities
         .map(
           (uni, i) => `
@@ -50,6 +57,13 @@ class App {
       console.log(err);
     }
   };
+
+  #renderError() {
+    const err = ` <p class="error">${this.#errMessasge}</p>`;
+    console.log(err);
+    this.#parentEl.innerHTML = "";
+    this.#parentEl.insertAdjacentHTML("beforeend", err);
+  }
 }
 
 const app = new App();
