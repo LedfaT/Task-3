@@ -1,4 +1,55 @@
 import { getJSON } from "./helpers";
 import { API_URL } from "./config";
 
-const parentEl = document.querySelector(".main__table").querySelector("tbody");
+class App {
+  #data;
+  #parentEl = document.querySelector(".main__table").querySelector("tbody");
+  form = document.querySelector(".form");
+  #errMessasge = "No country found!!! Try again";
+  constructor() {
+    this.getCountry();
+  }
+
+  getCountry() {
+    this.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = this.form.querySelector("input");
+      const country = input.value;
+      input.value = "";
+      if (!country) return;
+      this.render(country);
+    });
+  }
+
+  render = async (cont) => {
+    try {
+      const universities = await getJSON(`${API_URL}=${cont}`);
+      this.#data = universities;
+      const HTML = universities
+        .map(
+          (uni, i) => `
+                            <tr>
+                                <th scope="row">${i + 1}</th>
+                                <td>${uni.country}</td>
+                                <td>${uni.name}</td>
+                                <td>
+                                <a href="${uni.web_pages[0]}">${
+            uni.web_pages
+          }</a>
+                             </td>
+                                <td>${uni.alpha_two_code}</td>
+                                <td>${uni.domains[0]}</td>
+                            </tr>
+                        `
+        )
+        .join("");
+
+      this.#parentEl.innerHTML = "";
+      this.#parentEl.insertAdjacentHTML("beforeend", HTML);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+const app = new App();
