@@ -4,17 +4,28 @@ import { API_URL } from "./config";
 class App {
   #data;
   #parentEl = document.querySelector(".main__table").querySelector("tbody");
-  form = document.querySelector(".form");
+  #form = document.querySelector(".form");
+  #recoveryBtn = this.#form.querySelector(".recover-btn");
+  #input = this.#form.querySelector("input");
   #errMessasge = "No country found!!! Try again.";
+
   constructor() {
-    this.getCountry();
+    this.#recoverData();
+    this.#getCountry();
   }
 
-  getCountry() {
-    this.form.addEventListener("submit", (e) => {
+  #recoverData() {
+    this.#recoveryBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const input = this.form.querySelector("input");
-      const country = input.value;
+      this.#input.value = "";
+      this.#parentEl.innerHTML = "";
+    });
+  }
+
+  #getCountry() {
+    this.#form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const country = this.#input.value;
       if (!country) {
         this.#renderError();
         return;
