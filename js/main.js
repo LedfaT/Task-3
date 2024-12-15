@@ -30,6 +30,16 @@ class App {
     });
   }
 
+  #getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("saved"));
+    if (!data) return;
+    this.#saved = data;
+  }
+
+  #setLocalStorage() {
+    localStorage.setItem("saved", JSON.stringify(this.#saved));
+  }
+
   #recoverData() {
     this.#recoveryBtn.addEventListener("click", (e) => {
       e.preventDefault();
